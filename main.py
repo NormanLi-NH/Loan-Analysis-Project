@@ -15,8 +15,7 @@ df_state_region = pd.read_csv("state_region.csv")
 df_loan = pd.read_csv("loan.csv")
 df_fed = pd.read_csv("FEDFUNDS.csv")
 
-print(df_customer.head())
-print(df_loan.info())
+
 
 ##Inner Join Customer and Loan Tables
 inner_join_df = pd.merge(df_customer, df_loan, on='customer_id', how='outer')
@@ -24,12 +23,13 @@ inner_join_df = pd.merge(df_customer, df_loan, on='customer_id', how='outer')
 ######################################################################################
 
 ###Loan Amount to Annual Income
-
     
     ##Remove the outliers for annual income 
 def plot_loan_income_ratio():
     lower_percentile = 0.01  # 1st percentile
     upper_percentile = 0.99  # 99th percentile
+
+    inner_join_df = pd.merge(df_customer, df_loan, on='customer_id', how='outer')
 
     # Calculate bounds
     lower_bound = inner_join_df['annual_inc'].quantile(lower_percentile)
@@ -101,7 +101,6 @@ def plot_installment_analysis():
     plt.legend()
     plt.tight_layout()
     plt.show()
-
 
 
 ######################################################################################
@@ -383,7 +382,7 @@ print(coefficients)
 # Setting up the main window
 root = tk.Tk()
 root.title("Loan Data Visualization")
-root.geometry("600x400") 
+root.geometry("600x600") 
 
 def calculate_interest_rate():
     try:
@@ -432,6 +431,7 @@ customer_frame.pack(padx=10, pady=10, fill="both", expand="yes")
 
 # Dropdown menu for selecting customer analysis plot type
 customer_plot_selection = ttk.Combobox(customer_frame, values=[
+    "NONE",
     "Loan Amount to Annual Income Ratio",
     "Annual Installment to Annual Income",
     "Total Interest Analysis",
@@ -447,6 +447,7 @@ interest_rate_frame.pack(padx=10, pady=10, fill="both", expand="yes")
 
 # Dropdown menu for selecting interest rate analysis plot type
 interest_rate_plot_selection = ttk.Combobox(interest_rate_frame, values=[
+    "NONE",
     "Mean Interest Rate by Grade",
     "Mean Interest Rate by Home Ownership",
     "Interest Rate Distribution by Loan Term",
